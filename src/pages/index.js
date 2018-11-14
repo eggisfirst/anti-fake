@@ -1,31 +1,38 @@
-import React,{Component} from 'react'
-import Egg from '../variable/nameSpace'
-import { createStore } from 'redux'
-import todos from '../reducers/todos'
-// let store = createStore(todos)
+import React, { Component } from 'react'
+import '../scss/index.scss'
+import Quality from '../components/quality'
+import Error from '../components/error'
+import Msgbox from './../components/msgbox';
+import Tips from './../components/tips';
 
 class Index extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
-      height: window.innerHeight
-      
-    
+
+
+
     }
-   
+
   }
-  componentDidMount () {
-    // console.log(Egg.name)
-    // Egg.test()
-   console.log(123 );  
-     
-    }
-  render () {
- 
-    
+  componentDidMount() {
+
+  }
+  render() {
+
+
     return (
       <div className="index">
-       123
+        <div className='banner'></div>
+        <div className='content'>
+          <div className='logo'></div>
+          <p>CALIA正品查询平台</p>
+          <Quality/>
+          {/* <Error/> */}
+          {/* <Msgbox/> */}
+          {/* <Tips /> */}
+        </div>
+
       </div>
     )
   }

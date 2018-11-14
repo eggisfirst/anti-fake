@@ -1,0 +1,27 @@
+.error{
+  .tips-picture{
+    width: 36vw;
+    height: 36vw;
+    margin: auto;
+    background: url('../../images/quality.png') no-repeat center;
+    background-size: 100% 100%;
+    margin-bottom: 6vw;
+  }
+  h1{
+    font-size: 3.73vw;
+    color:  #1f1a17;
+    text-align: center;
+    line-height: 1em;
+    font-weight: normal;
+    span{
+      font-size: 4.53vw;
+      color: #743c2e;
+      font-weight: bold;
+    }
+    .takeback{
+      color: #1f1a17;
+      font-size: 3.73vw;
+      border-bottom: 2px solid #1f1a17;
+    }
+  }
+}
