@@ -55,16 +55,18 @@
       margin-top: 2vw;
       li{
         display: flex;
-        height: 11vw;
+        line-height: 2em;
         flex-wrap: wrap;
-        align-items: center;
+        font-size:3.73vw;
+        // align-items: center;
         span:nth-child(1){
           flex: 1;  
-          text-align-last: justify;    
+          text-align-last: justify; 
         }
         span:nth-child(2){
-          flex: 2.2;
+          flex: 2;
           margin-left: 6vw;
+          letter-spacing: 1px;
         }
       }
     }
