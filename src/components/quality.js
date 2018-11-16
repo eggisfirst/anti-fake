@@ -7,7 +7,7 @@ class Quality extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      
+      arrayKey : []
     }
     //验证次数
     this.times = (count) => {
@@ -17,24 +17,94 @@ class Quality extends Component {
         return "第" + count + '次'
       }
     }
+    //处理数据，返回数组形式
+    this.setData = () => {
+      console.log(Object.keys(this.props.codeData))
+      Object.keys(this.props.codeData).forEach(key =>
+        this.state.arrayKey.push({key:key})
+        // console.log(key,this.props.codeData[key])
+        )
+    }
   }
   componentWillMount () {
-    console.log('组件即将挂载',this.props.codeData)
+    this.setData()
+    console.log('组件即将挂载',this.state.arrayKey)
   }
-
   render () {
     const styleComponent = {
       show : {
         display : this.props.status ? 'block' : 'none'
       }
-    }
-    const codeData = this.props.codeData.map(() =>
-    <li>
-      <span>
-      </span>
-      <span></span>
-  </li>
+    }    
+    const data = this.state.arrayKey.map((item, i) => 
+      <li key={i}>
+        <span>{
+          (() => {
+            let type
+            switch(item.key){
+              case 'brand':
+                type = '品牌'
+                break;
+              case 'moNo':
+                type = '制号令'
+                break;
+              case 'goodsCode':
+                type = '产品代号'
+                break;
+              case 'goodsName':
+                type = '产品名称'
+                break;
+              case 'pdName':
+                type = '生产部门'
+                break;
+              case 'scanName':
+                type = '出货扫描人'
+                break;
+              case 'goodsSpec':
+                type = '产品规格'
+                break;
+            default:
+              return ''
+            }
+            return type
+          })()
+        }</span>
+        <span>{
+          (() => {
+            let type
+            switch(item.key){
+              case 'brand':
+                type = this.props.codeData.brand
+                break;
+              case 'moNo':
+                type = this.props.codeData.moNo
+                break;
+              case 'goodsCode':
+                type = this.props.codeData.goodsCode
+                break;
+              case 'goodsName':
+                type = this.props.codeData.goodsName
+                break;
+              case 'pdName':
+                type = this.props.codeData.pdName
+                break;
+              case 'scanName':
+                type = this.props.codeData.scanName
+                break;
+              case 'goodsSpec':
+                type = this.props.codeData.goodsSpec
+                break;
+            default:
+              return ''
+            }
+            return type
+          })()
+        }</span>
+      </li>
     )
+      
+   
+  
     return (
       <div className='quality' style={styleComponent.show}>
         <div className='tips-picture'></div>
@@ -48,34 +118,7 @@ class Quality extends Component {
             <span>详细信息</span>
           </div>
           <ul>
-            <li>
-              <span>产品代号</span>
-              <span></span>
-            </li>
-            <li>
-              <span>产品名称</span>
-              <span></span>
-            </li>
-            <li>
-              <span>产品规格</span>
-              <span></span>
-            </li>
-            <li>
-              <span>出货单号</span>
-              <span></span>
-            </li>
-            <li>
-              <span>生产指令号</span>
-              <span></span>
-            </li>
-            <li>
-              <span>生产部门</span>
-              <span></span>
-            </li>
-            <li>
-              <span>出货扫描人</span>
-              <span></span>
-            </li>
+           {data}
           </ul>
         </div>
       </div>

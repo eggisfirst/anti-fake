@@ -9,29 +9,29 @@ import '../scss/index.scss'
 //components
 import Quality from '../components/quality'
 import Error from '../components/error'
-
+import { connect } from 'react-redux';
+import { getCodeData } from '../action'
 
 
 class Index extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      codeData:[],
-      status:true,
-      count:20
-      
+      status:true
     }
-  
   //判断防伪码
   this.getData = () => {
     //获取防伪码code  
-    const code = Variable.getQueryString('c')
+    let code = Variable.getQueryString('c')
+    if (code == null) {
+      code = Variable.getQueryString('a')
+    }
     Variable.sendCode(code)
     .then(function (res) {
       console.log('success',res)
       if (res.status == '1'){
-        this.setState({codeData:res,status:true})
-        
+        this.setState({status:true})
+        this.props.getCodeData(res)  
       }else if (res.state == '0'){
         this.setState({status:false})
       }
@@ -41,8 +41,6 @@ class Index extends Component {
     })
 
   } 
-    
-
   }
   componentWillMount () {
     this.getData()
@@ -51,10 +49,6 @@ class Index extends Component {
   componentDidMount () {
     // console.log('组件渲染完成')
   }
- 
-  
-  
-  
   render() {
  
     return (
@@ -63,8 +57,8 @@ class Index extends Component {
         <div className='content'>
           <div className='logo'></div>
           <p>CALIA正品查询平台</p>
-          <Quality status={this.state.status} />
-          <Error status={this.state.status}/>
+          {/* <Quality status={this.state.status} />
+          <Error status={this.state.status}/> */}
         </div>
       </div>
     )
@@ -72,5 +66,13 @@ class Index extends Component {
 }
 
 
-export default Index
-
+const mapStateToProps = store => ({
+  codeData: store.codeData
+})
+const mapDispatchToProps = dispatch => ({
+  getCodeData: (arr) => dispatch(getCodeData(arr))
+})
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Index)

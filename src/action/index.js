@@ -10,3 +10,7 @@ export const getCodeData = (arr) => ({
   type : 'GET_CODE_DATA',
   arr
 })
+export const getBrandType = (arr) => ({
+  type : 'GET_BRAND_TYPE',
+  arr
+})
