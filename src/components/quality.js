@@ -110,8 +110,6 @@ class Quality extends Component {
       tipsClass = 'tips-picture2'
       hClass = 'h2'
     }
-   
-  
     return (
       <div className='quality' style={styleComponent.show}>
         <div className={tipsClass}></div>
