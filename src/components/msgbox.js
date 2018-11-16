@@ -60,10 +60,12 @@ class Msgbox extends Component {
       //判断手机号码格式是否正确
       let isPhoneNum = Variable.testPhone(phoneNum)
       if (isPhoneNum) {
-        axios.get(`${Variable.path}`,{
+        axios.get(`${Variable.path}getPrizes`,{
           params:{
-           name : name,
-           phone : phoneNum
+          //  name : name,
+          //  phone : phoneNum
+          data:'2018-11-12',
+          type:'1111'
           }
         })
         .then((res) => {

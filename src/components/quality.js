@@ -28,7 +28,7 @@ class Quality extends Component {
   }
   componentWillMount () {
     this.setData()
-    console.log('组件即将挂载',this.state.arrayKey)
+    console.log('组件即将挂载',this.props)
   }
   render () {
     const styleComponent = {
@@ -102,16 +102,26 @@ class Quality extends Component {
         }</span>
       </li>
     )
-      
+    let tipsClass,hClass
+    if (this.props.brandType){
+      tipsClass = 'tips-picture'
+      hClass = 'h1'
+    }else {
+      tipsClass = 'tips-picture2'
+      hClass = 'h2'
+    }
    
   
     return (
       <div className='quality' style={styleComponent.show}>
-        <div className='tips-picture'></div>
-        <h1>您好，您所查询的商品是
+        <div className={tipsClass}></div>
+        <h1 className={hClass}>
+          您好，您所查询的商品是
           <span>{this.times(this.props.codeData.count)}</span>验证
         </h1>
-        <h1>您所购买的商品是慕思品牌的<span>正品</span>，请放心使用!</h1>
+        <h1 className={hClass}>
+          您所购买的商品是慕思品牌的<span>正品</span>，请放心使用!
+        </h1>
         <div className='details'>
           <div className='title'>
             <div className='title-picture'></div>
@@ -128,7 +138,8 @@ class Quality extends Component {
 }
 
 const mapStateToProps = store => ({
-  codeData: store.codeData
+  codeData: store.codeData,
+  brandType: store.brandType
 })
 const mapDispatchToProps = dispatch => ({
   getCodeData: (arr) => dispatch(getCodeData(arr))
