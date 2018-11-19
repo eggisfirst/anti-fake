@@ -39,13 +39,13 @@
       padding-top: 2vw;
       input{
         height: 9.8vw;
-        width: 61vw;
-        border-bottom: 1px solid #999;
+        width: 55.6vw;
         color: #999;
-        padding-left: 5.46vw;
+        padding-left: 5.46vw
       }
       .name{
         position: relative;
+        border-bottom: 1px solid #999;
         .name-icon{
           background: url('../../images/name.png') no-repeat center;
           background-size: 100% 100%;
@@ -59,6 +59,7 @@
       }
       .phone{
         position: relative;
+        border-bottom: 1px solid #999;
         .phone-icon{
           background: url('../../images/phone.png') no-repeat center;
           background-size: 100% 100%;
@@ -72,19 +73,15 @@
       }
       .clear{
         background: url('../../images/Cancel.png') no-repeat center;
-        background-size: 100% 100%;
+        background-size: 4.46vw 4.46vw;
         width: 4.46vw;
         height: 4.46vw; 
         position: absolute;
         right: 0;
-      }
-      .icon1{
+        padding: 3vw;
         top: 50%;
-        margin-top: -2.6vw 
-      }
-      .icon2{
-        top: 50%;
-        margin-top: -2vw 
+        margin-top: -5.23vw;
+        z-index: 99;
       }
       .tips{
         font-size: 3.2vw;

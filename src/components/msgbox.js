@@ -1,4 +1,4 @@
-import React, { Component } from 'react'; 
+import React, { Component } from 'react';
 import Variable from '../variable/variable'
 import Tips from './tips';
 import '../scss/components/msgbox.scss'
@@ -6,18 +6,18 @@ import axios from 'axios'
 import { connect } from 'react-redux';
 import { clickBtn } from '../action'
 import { tips } from '../action'
-import { runInThisContext } from 'vm';
 
 class Msgbox extends Component {
-  constructor (props) {
-    super (props)
+  constructor(props) {
+    super(props)
     this.state = {
       phoneTips: '',
       inpNumVal: '',
       inpNameVal: '',
-      clearBtn1: false,
-      clearBtn2: false ,
-      key : true
+      close1:'',
+      close2:'',
+      key: true,
+      btnKsy:true
     }
     //获取手机号码
     this.handelNumChange = (e) => {
@@ -29,23 +29,35 @@ class Msgbox extends Component {
     //获取姓名
     this.handelNameChange = (e) => {
       this.setState({
-        inpNameVal : e.target.value
+        inpNameVal: e.target.value
       })
     }
     //清空input框
     this.clearBtn1 = () => {
+      console.log('clickevent')
       this.setState({
         inpNameVal: ''
-      })   
+      })
     }
     this.clearBtn2 = () => {
       this.setState({
         inpNumVal: '',
         phoneTips: false
-      })   
+      })
     }
     //光标聚焦
-
+    this.focusInput = () => {
+      this.setState({close1 : true})
+    }
+    this.focusInput1 = () => {
+      this.setState({close2 : true})
+    }
+    this.blurInput = () => {
+      this.setState({close1 : false})
+    }
+    this.blurInput1 = () => {
+      this.setState({close2 : false})
+    }
     //关闭反馈弹框
     this.closeBtn = () => {
       this.props.clickBtn(false)
@@ -54,34 +66,34 @@ class Msgbox extends Component {
     this.submitMsg = () => {
       let phoneNum = this.state.inpNumVal
       let name = this.state.inpNameVal
-      let isName = Variable.testName(name) 
+      let isName = Variable.testName(name)
       let isPhoneNum = Variable.testPhone(phoneNum)
       //判断名字格式
       if (!isName) {
         alert('请填写真实姓名')
-      }else {
+      } else {
         //判断手机号码格式
         if (isPhoneNum) {
           if (this.state.key) {
-            axios.post(`${Variable.path}feedback/saveFeedback`,{
-              params:{
-               name : name,
-               phone : phoneNum
+            axios.post(`${Variable.path}feedback/saveFeedback`, {
+              params: {
+                name: name,
+                phone: phoneNum
               }
             })
-            .then((res) => {
-              console.log('提交成功',res)
-              this.props.tips(true)
-              this.setState({ key : false})
-            })
-            .catch((error) => {
-              console.log(error)
-            })
-          }else {
-            alert ('您的反馈已提交')
+              .then((res) => {
+                console.log('提交成功', res)
+                this.props.tips(true)
+                this.setState({ key: false })
+              })
+              .catch((error) => {
+                console.log(error)
+              })
+          } else {
+            alert('您的反馈已提交')
           }
-          }
-         else{
+        }
+        else {
           this.setState({
             phoneTips: true
           })
@@ -90,19 +102,19 @@ class Msgbox extends Component {
     }
   }
 
-  render (){
+  render() {
     const styleComponent = {
-      show : {
-        display : this.props.clicks? 'block' : 'none'
+      show: {
+        display: this.props.clicks ? 'block' : 'none'
       },
-      phoneTips : {
-        display : this.state.phoneTips ? 'block' : 'none'
+      phoneTips: {
+        display: this.state.phoneTips ? 'block' : 'none'
       },
-      clearBtn1 : {
-        display : this.state.clearBtn1 ? 'block' : 'none'
+      clearBtn1: {
+        display: this.state.close1 ? 'block' : 'none'
       },
-      clearBtn2 : {
-        display : this.state.clearBtn2 ? 'block' : 'none'
+      clearBtn2: {
+        display: this.state.close2 ? 'block' : 'none'
       }
     }
     return (
@@ -114,22 +126,26 @@ class Msgbox extends Component {
           <div className='detail'>
             <div className='name'>
               <div className='name-icon'></div>
-              <input type='text' placeholder='请填写姓名' 
-                onChange={this.handelNameChange.bind(this)}
-              
-                value={this.state.inpNameVal}/>
-              <div className='clear icon1' 
-                onClick={this.clearBtn1}
-                style={styleComponent.clearBtn1}>
+              <input type='text' placeholder='请填写姓名'
+                onChange = {this.handelNameChange.bind(this)}
+                onFocus = {this.focusInput}
+                onBlur = {this.blurInput}
+                value= {this.state.inpNameVal}
+                maxLength='10' />
+              <div className='clear'
+                onTouchEnd = {this.clearBtn1}
+                style = {styleComponent.clearBtn1}>
               </div>
             </div>
             <div className='phone'>
               <div className='phone-icon'></div>
-              <input type='number' placeholder='请输入手机号码' 
-                onChange={this.handelNumChange.bind(this)} 
-                value={this.state.inpNumVal}/>
-              <div className='clear icon2' 
-                onClick={this.clearBtn2}
+              <input type='number' placeholder='请输入手机号码'
+                onChange={this.handelNumChange.bind(this)}
+                onFocus={this.focusInput1.bind(this)}
+                onBlur={this.blurInput1.bind(this)}
+                value={this.state.inpNumVal} />
+              <div className='clear'
+                onTouchEnd={this.clearBtn2}
                 style={styleComponent.clearBtn2}>
               </div>
             </div>
@@ -137,9 +153,9 @@ class Msgbox extends Component {
               您输入的号码有误，请重新输入
             </div>
           </div>
-          <input type='submit' value='提交' className='submit' onClick={this.submitMsg}/>
+          <input type='submit' value='提交' className='submit' onClick={this.submitMsg.bind(this)} />
         </div>
-        <Tips/>
+        <Tips />
       </div>
     )
   }

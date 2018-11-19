@@ -3,6 +3,7 @@ import '../scss/components/tips.scss'
 import { connect } from 'react-redux';
 import { tips } from '../action'
 
+
 class Tips extends Component {
   constructor (props) {
     super (props) 
