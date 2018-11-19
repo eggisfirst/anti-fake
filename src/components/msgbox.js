@@ -6,6 +6,7 @@ import axios from 'axios'
 import { connect } from 'react-redux';
 import { clickBtn } from '../action'
 import { tips } from '../action'
+import { runInThisContext } from 'vm';
 
 class Msgbox extends Component {
   constructor (props) {
@@ -15,37 +16,36 @@ class Msgbox extends Component {
       inpNumVal: '',
       inpNameVal: '',
       clearBtn1: false,
-      clearBtn2: false 
+      clearBtn2: false ,
+      key : true
     }
     //获取手机号码
     this.handelNumChange = (e) => {
       this.setState({
         inpNumVal: e.target.value,
-        phoneTips: false,
-        clearBtn2: true
+        phoneTips: false
       })
     }
     //获取姓名
     this.handelNameChange = (e) => {
       this.setState({
-        inpNameVal : e.target.value,
-        clearBtn1: true
+        inpNameVal : e.target.value
       })
     }
     //清空input框
     this.clearBtn1 = () => {
       this.setState({
-        inpNameVal: '',
-        clearBtn1: false
+        inpNameVal: ''
       })   
     }
     this.clearBtn2 = () => {
       this.setState({
         inpNumVal: '',
-        clearBtn2: false,
         phoneTips: false
       })   
     }
+    //光标聚焦
+
     //关闭反馈弹框
     this.closeBtn = () => {
       this.props.clickBtn(false)
@@ -54,37 +54,42 @@ class Msgbox extends Component {
     this.submitMsg = () => {
       let phoneNum = this.state.inpNumVal
       let name = this.state.inpNameVal
-      if(name === ''){
-        alert('请填写姓名')
-      }
-      //判断手机号码格式是否正确
+      let isName = Variable.testName(name) 
       let isPhoneNum = Variable.testPhone(phoneNum)
-      if (isPhoneNum) {
-        axios.get(`${Variable.path}getPrizes`,{
-          params:{
-          //  name : name,
-          //  phone : phoneNum
-          data:'2018-11-12',
-          type:'1111'
+      //判断名字格式
+      if (!isName) {
+        alert('请填写真实姓名')
+      }else {
+        //判断手机号码格式
+        if (isPhoneNum) {
+          if (this.state.key) {
+            axios.post(`${Variable.path}feedback/saveFeedback`,{
+              params:{
+               name : name,
+               phone : phoneNum
+              }
+            })
+            .then((res) => {
+              console.log('提交成功',res)
+              this.props.tips(true)
+              this.setState({ key : false})
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+          }else {
+            alert ('您的反馈已提交')
           }
-        })
-        .then((res) => {
-          console.log('提交成功',res)
-          this.props.tips(true)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-      }else{
-        this.setState({
-          phoneTips: true
-        })
+          }
+         else{
+          this.setState({
+            phoneTips: true
+          })
+        }
       }
     }
   }
-  componentWillReceiveProps (nextProps) {
-    console.log('组件重新渲染111',this.props)
-  }
+
   render (){
     const styleComponent = {
       show : {
@@ -107,17 +112,18 @@ class Msgbox extends Component {
           <h2>为协助客服快速处理，请提供以下信息</h2>
           <div className='close-icon' onClick={this.closeBtn}></div>
           <div className='detail'>
-            <div>
+            <div className='name'>
               <div className='name-icon'></div>
               <input type='text' placeholder='请填写姓名' 
                 onChange={this.handelNameChange.bind(this)}
+              
                 value={this.state.inpNameVal}/>
               <div className='clear icon1' 
                 onClick={this.clearBtn1}
                 style={styleComponent.clearBtn1}>
               </div>
             </div>
-            <div>
+            <div className='phone'>
               <div className='phone-icon'></div>
               <input type='number' placeholder='请输入手机号码' 
                 onChange={this.handelNumChange.bind(this)} 

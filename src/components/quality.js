@@ -7,7 +7,7 @@ class Quality extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      arrayKey : []
+  
     }
     //验证次数
     this.times = (count) => {
@@ -16,27 +16,20 @@ class Quality extends Component {
       }else {
         return "第" + count + '次'
       }
-    }
-    //处理数据，返回数组形式
-    this.setData = () => {
-      console.log(Object.keys(this.props.codeData))
-      Object.keys(this.props.codeData).forEach(key =>
-        this.state.arrayKey.push({key:key})
-        // console.log(key,this.props.codeData[key])
-        )
-    }
-  }
-  componentWillMount () {
-    this.setData()
-    console.log('组件即将挂载',this.props)
+    }  
   }
   render () {
     const styleComponent = {
       show : {
         display : this.props.status ? 'block' : 'none'
       }
-    }    
-    const data = this.state.arrayKey.map((item, i) => 
+    }   
+    //转化数据格式 
+    let arr = []
+    Object.keys(this.props.codeData).forEach(item =>
+      arr.push({ key : item }),
+    )
+    const data = arr.map((item, i) => 
       <li key={i}>
         <span>{
           (() => {
@@ -132,7 +125,6 @@ class Quality extends Component {
       </div>
     )
   }
-  
 }
 
 const mapStateToProps = store => ({

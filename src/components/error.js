@@ -8,11 +8,14 @@ class Error extends Component {
   constructor (props) {
     super (props)
     this.state = {
-    
+     
     }
     this.clickMsg = () => {
       this.props.clickBtn(true)
     }
+  }
+  componentWillMount () {
+    // console.log(123,this.props)
   }
   render () {
     const styleComponent = {

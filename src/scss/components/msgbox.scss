@@ -36,47 +36,55 @@
       width: 66.66vw;
       margin: 0 auto;
       border-top: 1px solid #555;
-      position: relative; 
       padding-top: 2vw;
-      
       input{
-        height: 10.8vw;
+        height: 9.8vw;
         width: 61vw;
         border-bottom: 1px solid #999;
         color: #999;
         padding-left: 5.46vw;
       }
-      .name-icon{
-        background: url('../../images/name.png') no-repeat center;
-        background-size: 100% 100%;
-        width: 4.4vw;
-        height: 4.8vw;
-        position: absolute;
-        left: 0;
-        top: 4.8vw;
+      .name{
+        position: relative;
+        .name-icon{
+          background: url('../../images/name.png') no-repeat center;
+          background-size: 100% 100%;
+          width: 4.4vw;
+          height: 4.8vw;
+          position: absolute;
+          left: 0;
+          top: 50%;
+          margin-top:-2.4vw 
+        }
       }
-      .phone-icon{
-        background: url('../../images/phone.png') no-repeat center;
-        background-size: 100% 100%;
-        width: 4.4vw;
-        height: 4.8vw;
-        position: absolute;
-        left: 0;
-        top: 16.4vw;
+      .phone{
+        position: relative;
+        .phone-icon{
+          background: url('../../images/phone.png') no-repeat center;
+          background-size: 100% 100%;
+          width: 4.4vw;
+          height: 4.8vw;
+          position: absolute;
+          left: 0;
+          top: 50%;
+          margin-top:-2.4vw 
+        }
       }
       .clear{
         background: url('../../images/Cancel.png') no-repeat center;
         background-size: 100% 100%;
-        width: 3.46vw;
-        height: 3.46vw; 
+        width: 4.46vw;
+        height: 4.46vw; 
         position: absolute;
         right: 0;
       }
       .icon1{
-        top: 5.2vw;
+        top: 50%;
+        margin-top: -2.6vw 
       }
       .icon2{
-        top: 17vw;
+        top: 50%;
+        margin-top: -2vw 
       }
       .tips{
         font-size: 3.2vw;

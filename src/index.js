@@ -5,7 +5,7 @@ import todoApp from './reducers'
 import { createStore } from 'redux'
 import App from './App';
 // import { HashRouter} from 'react-router-dom'
-import { BrowserRouter as Router} from 'react-router-dom'
+import { HashRouter} from 'react-router-dom'
 import registerServiceWorker from './registerServiceWorker'
 
 import './css/normalize.css'
@@ -15,9 +15,9 @@ let store = createStore(todoApp)
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
+    <HashRouter>
       <App />
-    </Router>
+    </HashRouter>
   </Provider>, document.getElementById('root'))
 
 // If you want your app to work offline and load faster, you can change

@@ -12,10 +12,12 @@ class Tips extends Component {
   }
   componentDidMount () {
     //3s后提示自动消失
-    this.timerID = setInterval(
-      () => this.props.tips(false),
-      3000
-    );
+    if (this.props.tips){
+      this.timerID = setInterval(
+        () => this.props.tips(false),
+        3000
+      ); 
+    }
   }
   componentWillUnmount() {
     clearInterval(this.timerID);
