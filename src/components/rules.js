@@ -9,8 +9,11 @@ class Rules extends Component {
     } 
   }
    render () {
+     const show = {
+      display : this.props.status ? 'block' : 'none'
+     }
     return(
-      <div className='home'>
+      <div className='home' style={show}>
         <ul>
           <li>
             <div className='icon'>

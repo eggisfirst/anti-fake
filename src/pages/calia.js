@@ -7,21 +7,23 @@ class Calia extends Component {
   constructor (props) {
     super(props)
     this.state = {
-
+      isToggleOn : false
     } 
+    this.rulesClickOn = () => {
+      this.setState({isToggleOn : true})
+    }
+    this.rulesClickIn = () => {
+      this.setState({isToggleOn : false})
+    }
   }
-  componentWillMount() {
-   
-   
-  }
-  componentDidMount () {
-   
-   
-  }
+  
    render () {
     const styleComponent = {
-      show : {
-        display : 'none'
+      on : {
+        display : this.state.isToggleOn ? 'block' : 'none'
+      },
+      in : {
+        display : this.state.isToggleOn ? 'none' : 'block'
       }
     }
     return (
@@ -32,10 +34,18 @@ class Calia extends Component {
           <p className='pClass'>CALIA正品查询平台</p>
           <p className='scan'>点击扫一扫</p>
           <div className='QRcode'></div>
-          <p className='rules' style={styleComponent.show}>了解规则</p>
-          <p className='rules drop'>了解规则>></p>
+          <p className='rules' 
+          style={styleComponent.on}
+          onClick={this.rulesClickIn.bind(this)}>
+            了解规则
+          </p>
+          <p className='rules drop' 
+          onClick={this.rulesClickOn.bind(this)}
+          style={styleComponent.in}>
+            了解规则>>
+          </p>
         </div>
-        <Rules/>
+        <Rules status={this.state.isToggleOn}/>
       </div>
     )
    }
