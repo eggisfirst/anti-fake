@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Variable from '../variable/variable'
-import Tips from './tips';
 import '../scss/components/msgbox.scss'
 import axios from 'axios'
 import { connect } from 'react-redux';
 import { clickBtn } from '../action'
 import { tips } from '../action'
+import { submitSuc } from '../action'
 
 class Msgbox extends Component {
   constructor(props) {
@@ -83,14 +83,14 @@ class Msgbox extends Component {
             })
               .then((res) => {
                 console.log('提交成功', res)
-                this.props.tips(true)
+                this.props.submitSuc(false)
                 this.setState({ key: false })
+                this.props.clickBtn(false)
+                this.props.tips(true)
               })
               .catch((error) => {
                 console.log(error)
               })
-          } else {
-            alert('您的反馈已提交')
           }
         }
         else {
@@ -155,7 +155,7 @@ class Msgbox extends Component {
           </div>
           <input type='submit' value='提交' className='submit' onClick={this.submitMsg.bind(this)} />
         </div>
-        <Tips />
+        
       </div>
     )
   }
@@ -163,11 +163,13 @@ class Msgbox extends Component {
 
 const mapStateToProps = store => ({
   clicks: store.clicks,
-  todos: store.todos
+  todos: store.todos,
+  submitSuc: store.submitSuc
 })
 const mapDispatchToProps = dispatch => ({
   clickBtn: (arr) => dispatch(clickBtn(arr)),
-  tips: (arr) => dispatch(tips(arr))
+  tips: (arr) => dispatch(tips(arr)),
+  submitSuc: (arr) => dispatch(submitSuc(arr))
 })
 export default connect(
   mapStateToProps,

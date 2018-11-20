@@ -14,3 +14,7 @@ export const getBrandType = (arr) => ({
   type : 'GET_BRAND_TYPE',
   arr
 })
+export const submitSuc = (arr) => ({
+  type : 'SUBMIT_SUCCESS',
+  arr
+})
