@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import '../scss/calia.scss'
 import Rules from './../components/rules';
 import Variable from '../variable/variable'
+import wx from 'weixin-js-sdk'
 
 class Calia extends Component {
   constructor (props) {
@@ -19,10 +20,10 @@ class Calia extends Component {
     this.temp = () => {
      Variable.getTicket()
      .then(function(res){
-       console.log(1111,res.nonceStr,res.signature)
-       window.wx.config({
-         debug : true,
-         appId :'wx879c920191311570',
+       console.log(1111,res.nonceStr,res.signature,res.timestamp)
+       wx.config({
+         debug : false,
+         appId :'wx877a7e37b0de0a87',
          timestamp : res.timestamp,
          nonceStr : res.nonceStr,
          signature : res.signature,
@@ -34,11 +35,13 @@ class Calia extends Component {
      }) 
     }
     this.scanCode = () => {
-      window.wx.scanQRCode({
+      console.log('调用扫一扫')
+      wx.scanQRCode({
         needResult : 0,
         scanType : ['qrCode','barCode'],
         success:function(res){
           var result = res.resultStr
+         
         }
       })
     }
@@ -46,7 +49,6 @@ class Calia extends Component {
   
   componentWillMount() {
     this.temp()
-    console.log(222,window)
   }
   componentDidMount() {
   

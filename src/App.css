@@ -1,6 +1,6 @@
 .App{
   box-sizing: border-box;
-  font-family: PINGPANG;
+  /* font-family: PINGPANG; */
   
 }
 *{
@@ -8,10 +8,10 @@
   padding: 0;
   box-sizing: border-box
 }
-@font-face {
+/* @font-face {
   font-family: PINGPANG;
   src: url('./assets/font/pingfang.ttf');
-}
+} */
 
 input{
 	outline:none;  
