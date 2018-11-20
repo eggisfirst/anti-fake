@@ -1,0 +1,53 @@
+body{
+  box-sizing: border-box;
+  background: url('../images/bg2.png') no-repeat center;
+  background-size: 100% 100%;
+  background-attachment:fixed
+}
+.kaisha{
+  min-height: 100vh;
+  .content{
+    padding-top: 12.8vw;
+    .logo{
+      background: url('../images/logo2.png') no-repeat center;
+      background-size: 100% 100%;
+      width: 50.66vw;
+      height: 11.73vw;
+      margin: auto;
+    }
+    .pClass{
+      color: #ffffff;
+	    opacity: 0.6;
+      font-size: 4.26vw;
+      font-weight: bold;
+      line-height: 6.4vw;
+      text-align: center;
+      padding-top: 7.86vw;
+    }
+    .scan{
+      color:#7c7c78;
+      text-align: center;
+      font-weight: bold;
+      font-size: 4.26vw;
+      padding-top: 5.06vw;
+    }
+    .QRcode{
+      background: url('../images/kaishaCode.png') no-repeat center;
+      background-size: 100% 100%;
+      width: 32.26vw;
+      height: 32.26vw;
+      margin: 0 auto;
+      margin-top: 1vw;
+    }
+    .rules{
+      font-size: 3.73vw;
+      color: #7c7c78;
+      text-align: center;
+      padding-top: 4vw;
+      padding-bottom: 4vw;
+    }
+    .drop{
+      text-decoration: underline;
+    }
+  }
+}

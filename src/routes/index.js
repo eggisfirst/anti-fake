@@ -17,9 +17,19 @@ const MyLoadingComponent = ({isLoading, error}) => {
   }
 }
 
-const [AsyncIndex] = [
+const [AsyncIndex,AsyncCalia,AsyncKaisha] = [
   Loadable({
     loader: () => import ('../pages/index'),
+    loading: MyLoadingComponent,
+    delay:300   //默认200
+  }),
+  Loadable({
+    loader: () => import ('../pages/calia'),
+    loading: MyLoadingComponent,
+    delay:300   //默认200
+  }),
+  Loadable({
+    loader: () => import ('../pages/kaisha'),
     loading: MyLoadingComponent,
     delay:300   //默认200
   })
@@ -32,6 +42,8 @@ class Routes extends Component {
     return (
       <Switch>
         <Route path="/" exact component={AsyncIndex}/>
+        <Route path="/calia" exact component={AsyncCalia}/>
+        <Route path="/kaisha" exact component={AsyncKaisha}/>
         
       </Switch>
     )
