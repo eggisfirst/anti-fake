@@ -17,19 +17,36 @@ class Calia extends Component {
       this.setState({isToggleOn : false})
     }
     this.temp = () => {
-     
-      Variable.getOpenId()
-      .then(function(res){
-      
-      })
-      .catch(function(error){
-        console.log(error)
+     Variable.getTicket()
+     .then(function(res){
+       console.log(1111,res.nonceStr,res.signature)
+       window.wx.config({
+         debug : true,
+         appId :'wx879c920191311570',
+         timestamp : res.timestamp,
+         nonceStr : res.nonceStr,
+         signature : res.signature,
+         jsApiList :['scanQRCode',]
+       })
+     })
+     .catch(function(error){
+       console.log('error',error)
+     }) 
+    }
+    this.scanCode = () => {
+      window.wx.scanQRCode({
+        needResult : 0,
+        scanType : ['qrCode','barCode'],
+        success:function(res){
+          var result = res.resultStr
+        }
       })
     }
   }
   
   componentWillMount() {
     this.temp()
+    console.log(222,window)
   }
   componentDidMount() {
   
@@ -50,7 +67,7 @@ class Calia extends Component {
           <div className='logo'></div>
           <p className='pClass'>CALIA正品查询平台</p>
           <p className='scan'>点击扫一扫</p>
-          <div className='QRcode'></div>
+          <div className='QRcode' onTouchEnd={this.scanCode.bind(this)}></div>
           <p className='rules' 
           style={styleComponent.on}
           onClick={this.rulesClickIn.bind(this)}>

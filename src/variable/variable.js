@@ -1,14 +1,13 @@
 import axios from 'axios'
 import sha1 from 'js-sha1'
 
+
 let init = (function () {
   const path = 'http://10.11.8.185/api/'
   let key = true
   let temp = {
     path : path,
-    appId :'wx877a7e37b0de0a87',
     secretKey : '477a1d7cc03d21d5abce55ec12170d33',
-    key : '994061370314006529',
     //获取url参数
     getQueryString : (name) => {
       let reg = new RegExp(`(^|&)${name}=([^&]*)(&|$)`, 'i')
@@ -48,31 +47,8 @@ let init = (function () {
           .catch( (error) => {
             key = true
             console.log ('发生错误',error)
-          })
-          
+          }) 
         }
-      })
-    },
-    //获取token码
-    getToken : () => {
-      return new Promise(function(resolve, reject) {
-        axios({
-          method: 'post',
-          url: 'https://derucci.net/app/token.api',
-          params: {
-            key: temp.key,
-            secretKey: temp.secretKey
-          }
-        })
-        .then((response) => {
-          if (response) {
-            resolve(response.data.token)
-          }
-        }).catch((error) => {
-          if (error) {
-            alert('token获取失败！')
-          }
-        })
       })
     },
     // 获取时间戳
@@ -89,46 +65,38 @@ let init = (function () {
       }
       return sha1.hex(str)
     },
-   //获取openid
-   getOpenId : (token) => {
-    let timestamp = temp.getTimestamp()
-    let code = '3DFAC448-75BD-48E5-A272-236389400FB5'
-    return new Promise(function(resolve, reject) {
-      temp.getToken().then(function(token){
-        console.log('获取token',token)
-        let arr = [
-          ['code' , code],
-          ['secretKey',temp.secretKey],
-          ['timestamp',timestamp]
-        ]
-        let sign = temp.getSign(arr)
-        axios({
-          method: 'get',
-          url: 'http://10.11.8.7:8081/api/public/v1/getWxAccessToken',
-          headers: {
-            'Authorization': token
-          },
+   //获取调用微信JS接口的临时票据
+    getTicket : () => {
+      let url = window.location.href
+      let timestamp = temp.getTimestamp()
+      let secretKey = temp.secretKey
+      let arr = [
+        ['url',url],
+        ['secretKey',secretKey],
+        ['timestamp',timestamp]
+      ]
+      let sign = temp.getSign(arr)
+      return new Promise (function(resolve,reject){
+        axios.get('https://derucci.net/api/public/v1/getTicket',{
           params: {
-            code : code,
-            appId : temp.appId,
+            url : url,
             timestamp : timestamp,
-            // sign : sign
+            secretKey : secretKey,
+            sign : sign
           }
         })
-        .then((response) => {
-          if (response) {
-            console.log('success')
-            // resolve(response.data)
-          }
-        }).catch((error) => {
-          if (error) {
-            alert('openid获取失败！')
+        .then((res) => {
+          if (res) {
+            // console.log ('获取数据',res)
+            resolve(res.data)
           }
         })
+        .catch( (error) => {
+          console.log ('发生错误',error)
+        }) 
       })
-
-    })
-  }
+    }
+   
   }
   return temp
 }())
