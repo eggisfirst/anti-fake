@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import '../scss/calia.scss'
 import Rules from './../components/rules';
-
+import Variable from '../variable/variable'
 
 class Calia extends Component {
   constructor (props) {
     super(props)
     this.state = {
       isToggleOn : false
+      
     } 
     this.rulesClickOn = () => {
       this.setState({isToggleOn : true})
@@ -15,8 +16,24 @@ class Calia extends Component {
     this.rulesClickIn = () => {
       this.setState({isToggleOn : false})
     }
+    this.temp = () => {
+     
+      Variable.getOpenId()
+      .then(function(res){
+      
+      })
+      .catch(function(error){
+        console.log(error)
+      })
+    }
   }
   
+  componentWillMount() {
+    this.temp()
+  }
+  componentDidMount() {
+  
+  }
    render () {
     const styleComponent = {
       on : {

@@ -19,6 +19,7 @@ class Msgbox extends Component {
       key: true,
       btnKsy:true
     }
+   
     //获取手机号码
     this.handelNumChange = (e) => {
       this.setState({
@@ -68,6 +69,10 @@ class Msgbox extends Component {
       let name = this.state.inpNameVal
       let isName = Variable.testName(name)
       let isPhoneNum = Variable.testPhone(phoneNum)
+       //获取code
+      let caliaCode = Variable.getQueryString('c')
+      let aimuCode = Variable.getQueryString('a')
+      let code = caliaCode || aimuCode
       //判断名字格式
       if (!isName) {
         alert('请填写真实姓名')
@@ -78,7 +83,8 @@ class Msgbox extends Component {
             axios.post(`${Variable.path}feedback/saveFeedback`, {
               params: {
                 name: name,
-                phone: phoneNum
+                phone: phoneNum,
+                code : code
               }
             })
               .then((res) => {

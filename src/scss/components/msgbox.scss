@@ -16,6 +16,7 @@
     position: absolute;
     top: 39.53vw;
     left: 10vw;
+    padding-top:4vw;
     h2{
       font-size: 4.53vw;
       color: #555;
@@ -37,6 +38,7 @@
       margin: 0 auto;
       border-top: 1px solid #555;
       padding-top: 2vw;
+      margin-top: 4vw;
       input{
         height: 9.8vw;
         width: 55.6vw;
@@ -77,16 +79,16 @@
         width: 4.46vw;
         height: 4.46vw; 
         position: absolute;
-        right: -2.8vw;
+        right: -1vw;
         padding: 3vw;
         top: 50%;
-        margin-top: -5.23vw;
+        margin-top: -3.23vw;
         z-index: 99;
       }
       .tips{
         font-size: 3.2vw;
         color:  #943f2a;
-        margin-top: 1.4vw;
+        margin-top: 2.4vw;
       }
     }
     .submit{
