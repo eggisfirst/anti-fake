@@ -5,7 +5,7 @@ import todoApp from './reducers'
 import { createStore } from 'redux'
 import App from './App';
 // import { HashRouter} from 'react-router-dom'
-import { HashRouter} from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import registerServiceWorker from './registerServiceWorker'
 
 import './css/normalize.css'

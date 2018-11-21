@@ -41,10 +41,9 @@ class Routes extends Component {
   render () {
     return (
       <Switch>
-        <Route path="/calia" exact component={AsyncIndex}/>
-        <Route path="/" exact component={AsyncCalia}/>
+        <Route path="/" exact component={AsyncIndex}/>
+        <Route path="/calia" exact component={AsyncCalia}/>
         <Route path="/kaisha" exact component={AsyncKaisha}/>
-        
       </Switch>
     )
   }

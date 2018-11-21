@@ -3,6 +3,10 @@ import '../scss/calia.scss'
 import Rules from './../components/rules';
 import Variable from '../variable/variable'
 import wx from 'weixin-js-sdk'
+import { connect } from 'react-redux'
+import { getStatus } from '../action'
+import { getBarCode } from '../action'
+import { getBrandType } from '../action'
 
 class Calia extends Component {
   constructor (props) {
@@ -11,16 +15,17 @@ class Calia extends Component {
       isToggleOn : false
       
     } 
+    //规则
     this.rulesClickOn = () => {
       this.setState({isToggleOn : true})
     }
     this.rulesClickIn = () => {
       this.setState({isToggleOn : false})
     }
-    this.temp = () => {
+    //微信配置
+    this.wxConfig = () => {
      Variable.getTicket()
      .then(function(res){
-       console.log(1111,res.nonceStr,res.signature,res.timestamp)
        wx.config({
          debug : false,
          appId :'wx877a7e37b0de0a87',
@@ -34,24 +39,32 @@ class Calia extends Component {
        console.log('error',error)
      }) 
     }
+    //调用扫一扫
     this.scanCode = () => {
-      console.log('调用扫一扫')
+      console.log('调用扫一扫',123)
       wx.scanQRCode({
-        needResult : 0,
+        needResult : 1,
         scanType : ['qrCode','barCode'],
-        success:function(res){
+        success:(res) => {
           var result = res.resultStr
-         
+          if(result){
+            let barCode = Variable.getCaliaString(result)
+            this.props.getBrandType(true)
+            let code = Variable.getBarCode(result)
+            this.props.getBarCode(code)
+            if (barCode === 'c'){
+              this.props.history.push('/')
+            }else{
+              this.props.getStatus(false)
+              this.props.history.push('/')
+            }
+          }
         }
       })
     }
   }
-  
   componentWillMount() {
-    this.temp()
-  }
-  componentDidMount() {
-  
+    this.wxConfig()
   }
    render () {
     const styleComponent = {
@@ -87,4 +100,17 @@ class Calia extends Component {
    }
 }
 
-export default Calia
+const mapStateToProps = store => ({
+  statusChange : store.statusChange,
+  barCode : store.barCode,
+  brandType: store.brandType
+})
+const mapDispatchToProps = dispatch => ({
+  getStatus : (arr) => dispatch(getStatus(arr)),
+  getBarCode : (arr) => dispatch(getBarCode(arr)),
+  getBrandType: (arr) => dispatch(getBrandType(arr)),
+})
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Calia)

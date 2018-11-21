@@ -16,8 +16,8 @@ class Msgbox extends Component {
       inpNameVal: '',
       close1:'',
       close2:'',
-      key: true,
-      btnKsy:true
+      key: true
+     
     }
    
     //获取手机号码
@@ -29,16 +29,12 @@ class Msgbox extends Component {
     }
     //获取姓名
     this.handelNameChange = (e) => {
-      this.setState({
-        inpNameVal: e.target.value
-      })
+      this.setState({inpNameVal: e.target.value})
     }
     //清空input框
     this.clearBtn1 = () => {
       console.log('clickevent')
-      this.setState({
-        inpNameVal: ''
-      })
+      this.setState({inpNameVal: ''})
     }
     this.clearBtn2 = () => {
       this.setState({
@@ -69,10 +65,6 @@ class Msgbox extends Component {
       let name = this.state.inpNameVal
       let isName = Variable.testName(name)
       let isPhoneNum = Variable.testPhone(phoneNum)
-       //获取code
-      let caliaCode = Variable.getQueryString('c')
-      let aimuCode = Variable.getQueryString('a')
-      let code = caliaCode || aimuCode
       //判断名字格式
       if (!isName) {
         alert('请填写真实姓名')
@@ -80,19 +72,26 @@ class Msgbox extends Component {
         //判断手机号码格式
         if (isPhoneNum) {
           if (this.state.key) {
-            axios.post(`${Variable.path}feedback/saveFeedback`, {
+            axios({
+              method: 'post',
+              url: `${Variable.path}saveAntiFakeVerify`,
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+              },
               params: {
-                name: name,
-                phone: phoneNum,
-                code : code
-              }
+                securityCode:this.props.barCode,
+                phone:phoneNum,
+                username:name
+              },
             })
               .then((res) => {
-                console.log('提交成功', res)
-                this.props.submitSuc(false)
-                this.setState({ key: false })
-                this.props.clickBtn(false)
-                this.props.tips(true)
+                if(res.data.status == 1) {
+                  console.log('提交成功', res)
+                  this.props.submitSuc(false)
+                  this.setState({ key: false })
+                  this.props.clickBtn(false)
+                  this.props.tips(true)
+                }
               })
               .catch((error) => {
                 console.log(error)
@@ -170,7 +169,8 @@ class Msgbox extends Component {
 const mapStateToProps = store => ({
   clicks: store.clicks,
   todos: store.todos,
-  submitSuc: store.submitSuc
+  submitSuc: store.submitSuc,
+  barCode : store.barCode
 })
 const mapDispatchToProps = dispatch => ({
   clickBtn: (arr) => dispatch(clickBtn(arr)),

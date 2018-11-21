@@ -3,7 +3,7 @@ import sha1 from 'js-sha1'
 
 
 let init = (function () {
-  const path = 'http://10.11.8.185/api/'
+  const path = 'http://10.11.8.185/api/antifake/v1/'
   let key = true
   let temp = {
     path : path,
@@ -16,6 +16,24 @@ let init = (function () {
         return unescape(r[2]);
       }
       return null;
+    },
+    //验证参数是c
+    getCaliaString : (name) => {
+      let url = name
+      let c = url.substring(url.indexOf('c='),url.indexOf('='))
+      return c
+    },
+    //获取防伪码
+    getBarCode : (u) => {
+      let url = u
+      let code = url.substring(url.indexOf('=') + 1)
+      return code
+    },
+    //验证参数是a
+    getKaishaString : (name) => {
+      let url = name
+      let a = url.substring(url.indexOf('a='),url.indexOf('='))
+      return a
     },
      // 校验人名
      testName : (name) => {
@@ -32,7 +50,7 @@ let init = (function () {
       return new Promise (function(resolve,reject){
         if(key){
           key = false
-          axios.get(`${path}antifake/antiFakeVerify`,{
+          axios.get(`${path}antiFakeVerify`,{
             params: {
               code:code 
             }

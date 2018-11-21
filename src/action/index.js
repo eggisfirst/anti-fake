@@ -18,3 +18,11 @@ export const submitSuc = (arr) => ({
   type : 'SUBMIT_SUCCESS',
   arr
 })
+export const getStatus = (arr) => ({
+  type : 'STATUS_CHANGE',
+  arr
+})
+export const getBarCode = (arr) => ({
+  type : 'GET_BARCODE',
+  arr
+})
