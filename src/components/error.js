@@ -26,7 +26,8 @@ class Error extends Component {
     }
   }
   componentWillMount () {
-    // console.log(123,this.props)
+    this.props.submitSuc(true)
+    this.props.tips(false)
   }
   render () {
     const styleComponent = {
