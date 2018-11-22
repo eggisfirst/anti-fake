@@ -65,6 +65,7 @@ class Msgbox extends Component {
       let name = this.state.inpNameVal
       let isName = Variable.testName(name)
       let isPhoneNum = Variable.testPhone(phoneNum)
+      let code = this.props.barCode ? this.props.barCode : ''
       //判断名字格式
       if (!isName) {
         alert('请填写真实姓名')
@@ -79,7 +80,7 @@ class Msgbox extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
               },
               params: {
-                securityCode:this.props.barCode,
+                securityCode:code,
                 phone:phoneNum,
                 username:name
               },
