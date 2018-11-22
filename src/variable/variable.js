@@ -28,11 +28,23 @@ let init = (function () {
       }
       return name
     },
+    //验证网址是否calia.com
+    isCaliaCom : (url) => {
+      let c = url.substring(url.indexOf(''),url.indexOf('wx'))
+      if (c === 'https://calia1965.com/') {
+        return true
+      }
+      return false
+    },
     //验证参数是c
     getCaliaString: (name) => {
       let url = name
-      let c = url.substring(url.indexOf('c='), url.indexOf('='))
-      return c
+      let c = url.substring(url.indexOf('?c=') + 1, url.indexOf('='))
+      if (c === 'c'){
+        return true
+      }else{
+        return false
+      }
     },
     //获取防伪码
     getBarCode: (u) => {
@@ -43,8 +55,12 @@ let init = (function () {
     //验证参数是a
     getKaishaString: (name) => {
       let url = name
-      let a = url.substring(url.indexOf('a='), url.indexOf('='))
-      return a
+      let a = url.substring(url.indexOf('?a=') + 1, url.indexOf('='))
+      if (a === 'a'){
+        return true
+      }else{
+        return false
+      }
     },
     // 校验人名
     testName: (name) => {

@@ -9,52 +9,65 @@ import { getBarCode } from '../action'
 import { getBrandType } from '../action'
 
 class Kaisha extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     this.state = {
-      isToggleOn : false
-    } 
+      isToggleOn: false
+    }
     //规则
     this.rulesClickOn = () => {
-      this.setState({isToggleOn : true})
+      this.setState({ isToggleOn: true })
     }
     this.rulesClickIn = () => {
-      this.setState({isToggleOn : false})
+      this.setState({ isToggleOn: false })
     }
     //微信配置
     this.wxConfig = () => {
       Variable.getTicket()
-      .then(function(res){
-        wx.config({
-          debug : false,
-          appId :'wx877a7e37b0de0a87',
-          timestamp : res.timestamp,
-          nonceStr : res.nonceStr,
-          signature : res.signature,
-          jsApiList :['scanQRCode',]
+        .then(function (res) {
+          wx.config({
+            debug: false,
+            appId: 'wx877a7e37b0de0a87',
+            timestamp: res.timestamp,
+            nonceStr: res.nonceStr,
+            signature: res.signature,
+            jsApiList: ['scanQRCode',]
+          })
         })
-      })
-      .catch(function(error){
-        console.log('error',error)
-      }) 
+        .catch(function (error) {
+          console.log('error', error)
+        })
     }
     //调用扫一扫
     this.scanCode = () => {
-      console.log('调用扫一扫',this)
+      console.log('调用扫一扫', this)
       wx.scanQRCode({
-        needResult : 1,
-        scanType : ['qrCode','barCode'],
-        success:  (res) => {
+        needResult: 1,
+        scanType: ['qrCode', 'barCode'],
+        success: (res) => {
           let result = res.resultStr
-          //判断是否艾慕的二维码
-          if(result){
+          
+          //判断是我们的网址
+          if (Variable.isCaliaCom(result)){
+            //判断是否有a参数
+            if(Variable.getKaishaString(result)){
+              window.location.href.history.pushState('')
+            }else{
+              this.props.history.push('/')   
+            }
+          }else{
+            alert ('该二维码不是防伪码')
+          }
+
+
+          if (result) {
             let barCode = Variable.getKaishaString(result)
             this.props.getBrandType(false)
             let code = Variable.getBarCode(result)
             this.props.getBarCode(code)
-            if (barCode === 'a'){
-              this.props.history.push('/')
-            }else{
+            if (barCode === 'a') {
+              this.props.history.push('/?c=')
+            } else {
               this.props.getStatus(false)
               this.props.history.push('/')
             }
@@ -63,51 +76,51 @@ class Kaisha extends Component {
       })
     }
   }
- 
+
   componentWillMount() {
     this.wxConfig()
   }
-   render () {
+  render() {
     const styleComponent = {
-      on : {
-        display : this.state.isToggleOn ? 'block' : 'none'
+      on: {
+        display: this.state.isToggleOn ? 'block' : 'none'
       },
-      in : {
-        display : this.state.isToggleOn ? 'none' : 'block'
+      in: {
+        display: this.state.isToggleOn ? 'none' : 'block'
       }
     }
-    return(
+    return (
       <div className="kaisha">
         <div className='content' >
           <div className='logo'></div>
           <p className='pClass'>艾慕凯莎正品查询平台</p>
           <p className='scan'>点击扫一扫</p>
-          <div className='QRcode'  onTouchEnd={this.scanCode.bind(this)}></div>
-          <p className='rules' 
-           onClick={this.rulesClickIn.bind(this)}  
-           style={styleComponent.on}>
+          <div className='QRcode' onTouchEnd={this.scanCode.bind(this)}></div>
+          <p className='rules'
+            onClick={this.rulesClickIn.bind(this)}
+            style={styleComponent.on}>
             了解规则
           </p>
           <p className='rules drop'
-           onClick={this.rulesClickOn.bind(this)}
-           style={styleComponent.in}>
+            onClick={this.rulesClickOn.bind(this)}
+            style={styleComponent.in}>
             了解规则>>
           </p>
         </div>
-        <Rules  status={this.state.isToggleOn}/>
+        <Rules status={this.state.isToggleOn} />
       </div>
     )
-   }
+  }
 }
 
 const mapStateToProps = store => ({
-  statusChange : store.statusChange,
-  barCode : store.barCode,
+  statusChange: store.statusChange,
+  barCode: store.barCode,
   brandType: store.brandType
 })
 const mapDispatchToProps = dispatch => ({
-  getStatus : (arr) => dispatch(getStatus(arr)),
-  getBarCode : (arr) => dispatch(getBarCode(arr)),
+  getStatus: (arr) => dispatch(getStatus(arr)),
+  getBarCode: (arr) => dispatch(getBarCode(arr)),
   getBrandType: (arr) => dispatch(getBrandType(arr)),
 })
 export default connect(

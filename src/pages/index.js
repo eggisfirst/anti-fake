@@ -8,6 +8,8 @@ import bannerImg2 from '../images/bg2.png'
 //components
 import Quality from '../components/quality'
 import Error from '../components/error'
+import ErrorTips from '../components/errorTips'
+
 import { connect } from 'react-redux'
 import { getBrandType } from '../action'
 import { getCodeData } from '../action'
@@ -19,7 +21,8 @@ class Index extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      brand: ''
+      brand: '',
+      status:''
     }
     //判断防伪码
     this.getData = () => {
@@ -42,8 +45,7 @@ class Index extends Component {
           this.setState({ brand: '艾慕凯莎' })
         }
       } else {
-        alert('该二维码不是防伪码')
-        return false
+        this.setState({status:true})
       }
 
 
@@ -139,6 +141,7 @@ class Index extends Component {
           <p className={pClass}>{this.state.brand}正品查询平台</p>
           <Quality status={this.props.statusChange} />
           <Error status={this.props.statusChange} />
+          <ErrorTips status={this.state.status}/>
         </div>
       </div>
     )
