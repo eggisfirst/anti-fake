@@ -35,12 +35,12 @@ class Index extends Component {
       let c = Variable.getCaliaString(url)
       //如果有a或者c参数
       if (a || c) {
-        console.log(123, code)
+        console.log(111, code)
         this.props.getBarCode(code)
         //空值直接返回错误页面
-        if(code !== ''){
+        if (code.length >= 20 && code.length <= 50) {
           this.sendCode(code)
-        }else{
+        } else {
           this.props.getStatus(false)
         }
         //更换calia或者艾慕凯莎的界面
