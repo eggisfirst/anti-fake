@@ -9,55 +9,55 @@ import { getBarCode } from '../action'
 import { getBrandType } from '../action'
 
 class Calia extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
-      isToggleOn : false
-      
-    } 
+      isToggleOn: false
+
+    }
     //规则
     this.rulesClickOn = () => {
-      this.setState({isToggleOn : true})
+      this.setState({ isToggleOn: true })
     }
     this.rulesClickIn = () => {
-      this.setState({isToggleOn : false})
+      this.setState({ isToggleOn: false })
     }
     //微信配置
     this.wxConfig = () => {
-     Variable.getTicket()
-     .then(function(res){
-       wx.config({
-         debug : false,
-         appId :'wx877a7e37b0de0a87',
-         timestamp : res.timestamp,
-         nonceStr : res.nonceStr,
-         signature : res.signature,
-         jsApiList :['scanQRCode',]
-       })
-     })
-     .catch(function(error){
-       console.log('error',error)
-     }) 
+      Variable.getTicket()
+        .then(function (res) {
+          wx.config({
+            debug: false,
+            appId: 'wx877a7e37b0de0a87',
+            timestamp: res.timestamp,
+            nonceStr: res.nonceStr,
+            signature: res.signature,
+            jsApiList: ['scanQRCode',]
+          })
+        })
+        .catch(function (error) {
+          console.log('error', error)
+        })
     }
     //调用扫一扫
     this.scanCode = () => {
-      console.log('调用扫一扫',123)
+      console.log('调用扫一扫')
       wx.scanQRCode({
-        needResult : 1,
-        scanType : ['qrCode','barCode'],
-        success:(res) => {
-          var result = res.resultStr
-          if(result){
-            let barCode = Variable.getCaliaString(result)
-            this.props.getBrandType(true)
-            let code = Variable.getBarCode(result)
-            this.props.getBarCode(code)
-            if (barCode === 'c'){
-              this.props.history.push('/')
-            }else{
-              this.props.getStatus(false)
-              this.props.history.push('/')
+        needResult: 1,
+        scanType: ['qrCode', 'barCode'],
+        success: (res) => {
+          let result = res.resultStr
+          //判断是我们的网址
+          if (Variable.isCaliaCom(result)) {
+            //判断是否有c参数
+            if (Variable.getCaliaString(result)) {
+              let code = Variable.GetQueryString('c', result)
+              this.props.history.push('/' + '?c=' + code)
+            } else {
+              this.props.history.push('/' + '?c=')
             }
+          } else {
+            alert('该二维码不是防伪码')
           }
         }
       })
@@ -66,13 +66,13 @@ class Calia extends Component {
   componentWillMount() {
     this.wxConfig()
   }
-   render () {
+  render() {
     const styleComponent = {
-      on : {
-        display : this.state.isToggleOn ? 'block' : 'none'
+      on: {
+        display: this.state.isToggleOn ? 'block' : 'none'
       },
-      in : {
-        display : this.state.isToggleOn ? 'none' : 'block'
+      in: {
+        display: this.state.isToggleOn ? 'none' : 'block'
       }
     }
     return (
@@ -83,31 +83,31 @@ class Calia extends Component {
           <p className='pClass'>CALIA正品查询平台</p>
           <p className='scan'>点击扫一扫</p>
           <div className='QRcode' onTouchEnd={this.scanCode.bind(this)}></div>
-          <p className='rules' 
-          style={styleComponent.on}
-          onClick={this.rulesClickIn.bind(this)}>
+          <p className='rules'
+            style={styleComponent.on}
+            onClick={this.rulesClickIn.bind(this)}>
             了解规则
           </p>
-          <p className='rules drop' 
-          onClick={this.rulesClickOn.bind(this)}
-          style={styleComponent.in}>
+          <p className='rules drop'
+            onClick={this.rulesClickOn.bind(this)}
+            style={styleComponent.in}>
             了解规则>>
           </p>
         </div>
-        <Rules status={this.state.isToggleOn}/>
+        <Rules status={this.state.isToggleOn} />
       </div>
     )
-   }
+  }
 }
 
 const mapStateToProps = store => ({
-  statusChange : store.statusChange,
-  barCode : store.barCode,
+  statusChange: store.statusChange,
+  barCode: store.barCode,
   brandType: store.brandType
 })
 const mapDispatchToProps = dispatch => ({
-  getStatus : (arr) => dispatch(getStatus(arr)),
-  getBarCode : (arr) => dispatch(getBarCode(arr)),
+  getStatus: (arr) => dispatch(getStatus(arr)),
+  getBarCode: (arr) => dispatch(getBarCode(arr)),
   getBrandType: (arr) => dispatch(getBrandType(arr)),
 })
 export default connect(

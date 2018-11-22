@@ -3,7 +3,7 @@ import sha1 from 'js-sha1'
 
 
 let init = (function () {
-  const path = 'http://10.11.8.185/api/antifake/v1/'
+  const path = 'https://derucci.net/api/antifake/v1/'
   let key = true
   let temp = {
     path: path,
@@ -30,15 +30,18 @@ let init = (function () {
     },
     //验证网址是否calia.com
     isCaliaCom : (url) => {
-      let c = url.substring(url.indexOf(''),url.indexOf('wx'))
-      if (c === 'https://calia1965.com/') {
+      let c = url.substring(url.indexOf(''),url.indexOf('web'))
+      if (c ==='https://derucci.net/'){
         return true
       }
+      // if (c === 'https://calia1965.com/') {
+      //   return true
+      // }
       return false
     },
-    //验证参数是c
+    //判断参数是c
     getCaliaString: (name) => {
-      let url = name
+      let url =  name
       let c = url.substring(url.indexOf('?c=') + 1, url.indexOf('='))
       if (c === 'c'){
         return true
@@ -52,9 +55,9 @@ let init = (function () {
       let code = url.substring(url.indexOf('=') + 1)
       return code
     },
-    //验证参数是a
+    //判断参数是a
     getKaishaString: (name) => {
-      let url = name
+      let url =  name
       let a = url.substring(url.indexOf('?a=') + 1, url.indexOf('='))
       if (a === 'a'){
         return true

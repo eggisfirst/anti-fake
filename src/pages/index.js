@@ -22,22 +22,29 @@ class Index extends Component {
     super(props)
     this.state = {
       brand: '',
-      status:''
+      status: ''
     }
     //判断防伪码
     this.getData = () => {
-      //不是公众号进来的
       //检查网址有没有#/并返回没有#/的url
       let url = Variable.testUrl(window.location.href)
-      //获取防伪码code,判断是calia还是aimu，更换界面  
       let caliaCode = Variable.GetQueryString('c', url)
       let aimuCode = Variable.GetQueryString('a', url)
       let code = caliaCode || aimuCode
-      if (code !== '') {
-        console.log('有参数', code)
-        this.sendCode(code)
+      let a = Variable.getKaishaString(url)
+      let c = Variable.getCaliaString(url)
+      //如果有a或者c参数
+      if (a || c) {
+        console.log(123, code)
         this.props.getBarCode(code)
-        if (caliaCode) {
+        //空值直接返回错误页面
+        if(code !== ''){
+          this.sendCode(code)
+        }else{
+          this.props.getStatus(false)
+        }
+        //更换calia或者艾慕凯莎的界面
+        if (c) {
           this.props.getBrandType(true)
           this.setState({ brand: 'CALIA' })
         } else {
@@ -45,48 +52,14 @@ class Index extends Component {
           this.setState({ brand: '艾慕凯莎' })
         }
       } else {
-        this.setState({status:true})
+        this.setState({ status: true })
       }
-
-
-
-      // if (code == null) {   //不是公众号调用的扫一扫
-      //   var temp = '3F466D67-5981-4D67-86A9-21AC1979171'
-      //   this.sendCode(temp)
-      //     this.props.getBrandType(true)
-      //     this.props.getBarCode(temp)
-      //   // if (caliaCode) {
-      //   //   this.props.getBrandType(true)
-      //   //   this.setState({brand: 'CALIA'})
-      //   // } else {
-      //   //   this.props.getBrandType(false)
-      //   //   this.setState({ brand: '艾慕凯莎'})
-      //   // }
-      //   // this.props.getBarCode(code)
-      //   // this.sendCode(code)
-      // } else {    //公众号调用的扫一扫
-      //   if (this.props.barCode !== null) {
-      //     if(this.props.brandType){   //calia
-      //       this.setState({ brand: 'CALIA'})
-      //       if (this.props.statusChange == '') {
-      //         this.sendCode(this.props.barCode)
-      //       }
-      //     }else{                     //kaisha
-      //       this.setState({ brand: '艾慕凯莎'}) 
-      //       if (this.props.statusChange == '') {
-      //         this.sendCode(this.props.barCode)
-      //       }
-      //     }
-      //   } else {
-      //     alert ('该二维码不是防伪码')
-      //   }
-
-      // }
     }
     //获取数据并存在store
     this.sendCode = (code) => {
       Variable.sendCode(code)
         .then((res) => {
+          console.log('发送请求')
           if (res.data.status == 1) {
             this.props.getStatus(true)
             this.props.getCodeData(res.data)
@@ -141,7 +114,7 @@ class Index extends Component {
           <p className={pClass}>{this.state.brand}正品查询平台</p>
           <Quality status={this.props.statusChange} />
           <Error status={this.props.statusChange} />
-          <ErrorTips status={this.state.status}/>
+          <ErrorTips status={this.state.status} />
         </div>
       </div>
     )

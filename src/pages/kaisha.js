@@ -3,10 +3,6 @@ import '../scss/kaisha.scss'
 import Rules from './../components/rules';
 import Variable from '../variable/variable'
 import wx from 'weixin-js-sdk'
-import { connect } from 'react-redux'
-import { getStatus } from '../action'
-import { getBarCode } from '../action'
-import { getBrandType } from '../action'
 
 class Kaisha extends Component {
   constructor(props) {
@@ -21,6 +17,7 @@ class Kaisha extends Component {
     this.rulesClickIn = () => {
       this.setState({ isToggleOn: false })
     }
+
     //微信配置
     this.wxConfig = () => {
       Variable.getTicket()
@@ -40,37 +37,23 @@ class Kaisha extends Component {
     }
     //调用扫一扫
     this.scanCode = () => {
-      console.log('调用扫一扫', this)
+      console.log('调用扫一扫')
       wx.scanQRCode({
         needResult: 1,
         scanType: ['qrCode', 'barCode'],
         success: (res) => {
           let result = res.resultStr
-          
           //判断是我们的网址
-          if (Variable.isCaliaCom(result)){
+          if (Variable.isCaliaCom(result)) {
             //判断是否有a参数
-            if(Variable.getKaishaString(result)){
-              window.location.href.history.pushState('')
-            }else{
-              this.props.history.push('/')   
-            }
-          }else{
-            alert ('该二维码不是防伪码')
-          }
-
-
-          if (result) {
-            let barCode = Variable.getKaishaString(result)
-            this.props.getBrandType(false)
-            let code = Variable.getBarCode(result)
-            this.props.getBarCode(code)
-            if (barCode === 'a') {
-              this.props.history.push('/?c=')
+            if (Variable.getKaishaString(result)) {
+              let code = Variable.GetQueryString('a', result)
+              this.props.history.push('/' + '?a=' + code)
             } else {
-              this.props.getStatus(false)
-              this.props.history.push('/')
+              this.props.history.push('/' + '?a=')
             }
+          } else {
+            alert('该二维码不是防伪码')
           }
         }
       })
@@ -113,17 +96,4 @@ class Kaisha extends Component {
   }
 }
 
-const mapStateToProps = store => ({
-  statusChange: store.statusChange,
-  barCode: store.barCode,
-  brandType: store.brandType
-})
-const mapDispatchToProps = dispatch => ({
-  getStatus: (arr) => dispatch(getStatus(arr)),
-  getBarCode: (arr) => dispatch(getBarCode(arr)),
-  getBrandType: (arr) => dispatch(getBrandType(arr)),
-})
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Kaisha)
+export default Kaisha
