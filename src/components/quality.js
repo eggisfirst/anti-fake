@@ -31,7 +31,7 @@ class Quality extends Component {
     )
     const data = arr.map((item, i) => 
       <li key={i}>
-        <span>{
+        <span className='span1'>{
           (() => {
             let type
             switch(item.key){
@@ -39,7 +39,7 @@ class Quality extends Component {
                 type = '品牌'
                 break;
               case 'moNo':
-                type = '制号令'
+                type = '制令号'
                 break;
               case 'goodsCode':
                 type = '产品代号'
@@ -62,7 +62,7 @@ class Quality extends Component {
             return type
           })()
         }</span>
-        <span>{
+        <span className='span2'>{
           (() => {
             let type
             switch(item.key){

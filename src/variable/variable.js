@@ -3,7 +3,7 @@ import sha1 from 'js-sha1'
 
 
 let init = (function () {
-  const path = 'https://derucci.net/api/antifake/v1/'
+  const path = 'https://calia1965.com/api/antifake/v1/'
   let key = true
   let temp = {
     path: path,
@@ -30,8 +30,8 @@ let init = (function () {
     },
     //验证网址是否calia.com
     isCaliaCom : (url) => {
-      let c = url.substring(url.indexOf(''),url.indexOf('web'))
-      if (c ==='https://derucci.net/'){
+      let c = url.substring(url.indexOf(''),url.indexOf('wx'))
+      if (c ==='https://calia1965.com/'){
         return true
       }
       // if (c === 'https://calia1965.com/') {
