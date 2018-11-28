@@ -44,13 +44,25 @@ class Kaisha extends Component {
         success: (res) => {
           let result = res.resultStr
           //判断是我们的网址
+          // if (Variable.isCaliaCom(result)) {
+          //   //判断是否有a参数
+          //   if (Variable.getKaishaString(result)) {
+          //     let code = Variable.GetQueryString('a', result)
+          //     this.props.history.push('/' + '?a=' + code)
+          //   } else {
+          //     this.props.history.push('/' + '?a=')
+          //   }
+          // } else {
+          //   alert('该二维码不是防伪码')
+          // }
+
           if (Variable.isCaliaCom(result)) {
-            //判断是否有a参数
+            //判断是否有c参数
             if (Variable.getKaishaString(result)) {
               let code = Variable.GetQueryString('a', result)
-              this.props.history.push('/' + '?a=' + code)
+              window.location.href = 'https://calia1965.com/wx/' + '?a=' + code
             } else {
-              this.props.history.push('/' + '?a=')
+              window.location.href = 'https://calia1965.com/wx/' + '?a=' 
             }
           } else {
             alert('该二维码不是防伪码')

@@ -48,13 +48,26 @@ class Calia extends Component {
         success: (res) => {
           let result = res.resultStr
           //判断是我们的网址
+          // if (Variable.isCaliaCom(result)) {
+          //   //判断是否有c参数
+          //   if (Variable.getCaliaString(result)) {
+          //     let code = Variable.GetQueryString('c', result)
+          //     this.props.history.push('/' + '?c=' + code)
+          //   } else {
+          //     this.props.history.push('/' + '?c=')
+          //   }
+          // } else {
+          //   alert('该二维码不是防伪码')
+          // }
+
+          //判断是我们的网址
           if (Variable.isCaliaCom(result)) {
             //判断是否有c参数
             if (Variable.getCaliaString(result)) {
               let code = Variable.GetQueryString('c', result)
-              this.props.history.push('/' + '?c=' + code)
+              window.location.href = 'https://calia1965.com/wx/' + '?c=' + code
             } else {
-              this.props.history.push('/' + '?c=')
+              window.location.href = 'https://calia1965.com/wx/' + '?c='
             }
           } else {
             alert('该二维码不是防伪码')
