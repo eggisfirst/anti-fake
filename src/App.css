@@ -8,7 +8,10 @@
   font-family: PINGPANG;
   src: url('./assets/font/pingfang.ttf');
 } */
-
+a {
+  text-decoration:none;
+  outline: none;
+  }
 input{
 	outline:none;  
   text-indent: 0;

@@ -33,7 +33,11 @@ class Error extends Component {
     const styleComponent = {
       show : {
         display : this.props.status ? 'none' : 'block'
+      },
+      color : {
+        color : this.props.brandType ? '#000' : '#fff'
       }
+      
     }
     let errorPicClass,hClass
     if (this.props.brandType){
@@ -42,12 +46,13 @@ class Error extends Component {
     }else {
       errorPicClass = 'tips-picture2'
       hClass = 'h2'
+      
     }  
     return (
       <div className='error' style={styleComponent.show}>
         <div className={errorPicClass}></div>
         <h1 className={hClass}>您好，<span>暂时无法查询到</span>此商品</h1>
-        <h1 className={hClass}>请联系400客服进行查询或<span className='takeback' onClick={this.clickMsg}>立即反馈</span></h1>
+        <h1 className={hClass}>请联系<a href="tel:4007775596" style={styleComponent.color}>400-777-5596</a>客服进行查询或<span className='takeback' onClick={this.clickMsg}>立即反馈</span></h1>
         <Msgbox/>
         <Tips />
       </div>
