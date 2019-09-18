@@ -33,38 +33,54 @@ class Index extends Component {
       let code = caliaCode || aimuCode
       let a = Variable.getKaishaString(url)
       let c = Variable.getCaliaString(url)
+      console.log('a',a)
+      console.log('c',c)
       //如果有a或者c参数
       if (a || c) {
         console.log(111, code)
         this.props.getBarCode(code)
         //空值直接返回错误页面
         if (code.length >= 20 && code.length <= 50) {
-          this.sendCode(code)
+          this.sendCode(code,c)
         } else {
           this.props.getStatus(false)
         }
         //更换calia或者艾慕凯莎的界面
-        if (c) {
-          this.props.getBrandType(true)
-          this.setState({ brand: 'CALIA' })
-        } else {
-          this.props.getBrandType(false)
-          this.setState({ brand: '艾慕凯莎' })
-        }
+        // if (c) {
+        //   this.props.getBrandType(true)
+        //   this.setState({ brand: 'CALIA' })
+        // } else {
+        //   this.props.getBrandType(false)
+        //   this.setState({ brand: '艾慕凯莎' })
+        // }
       } else {
         this.setState({ status: true })
       }
     }
     //获取数据并存在store
-    this.sendCode = (code) => {
+    this.sendCode = (code,c) => {
       Variable.sendCode(code)
         .then((res) => {
-          console.log('发送请求')
           if (res.data.status == 1) {
+            if (res.data.brand === 'Calia Sofart') {
+              this.props.getBrandType(true)
+              this.setState({ brand: 'CALIA' })
+            } else {
+              this.props.getBrandType(false)
+              this.setState({ brand: '艾慕凯莎' })
+            }
             this.props.getStatus(true)
             this.props.getCodeData(res.data)
           } else if (res.data.status == 0) {
             this.props.getStatus(false)
+            if (c) {
+              this.props.getBrandType(true)
+              this.setState({ brand: 'CALIA' })
+            } else {
+              this.props.getBrandType(false)
+              this.setState({ brand: '艾慕凯莎' })
+            }
+
           }
         })
         .catch((error) => {
