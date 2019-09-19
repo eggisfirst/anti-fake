@@ -58,8 +58,8 @@ class Kaisha extends Component {
 
           if (Variable.isCaliaCom(result)) {
             //判断是否有c参数
-            if (Variable.getKaishaString(result)) {
-              let code = Variable.GetQueryString('a', result)
+            if (Variable.getKaishaString(result) || Variable.getCaliaString(result)) {
+              let code = Variable.GetQueryString('a', result) || Variable.GetQueryString('c', result) 
               window.location.href = 'https://calia1965.com/wx/' + '?a=' + code
             } else {
               window.location.href = 'https://calia1965.com/wx/' + '?a=' 

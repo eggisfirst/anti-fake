@@ -88,7 +88,7 @@ let init = (function () {
             .then((res) => {
               if (res) {
                 key = true
-                // console.log ('获取数据',res)
+                console.log ('获取数据',res)
                 resolve(res)
               }
             })
